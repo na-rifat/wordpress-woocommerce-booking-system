@@ -1,0 +1,23 @@
+{
+    "name": "rafalotech/dm-reservation",
+    "description": "Reservation management plugin for wordpress",
+    "type": "wordpress-plugin",
+    "license": "GPL v2",
+    "autoload": {
+        "psr-4": {
+            "mvr\\": "./classes"
+        },
+        "files": [
+            "./functions.php",
+            "./calender.php"
+        ]
+    },
+    "authors": [
+        {
+            "name": "Rafalo tech",
+            "email": "nuraalamrifat@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

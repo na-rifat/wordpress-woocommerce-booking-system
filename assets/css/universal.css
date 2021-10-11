@@ -1,0 +1,366 @@
+/* Reservation button */
+.reservation-button {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    color: white;
+    font-size: 22px;
+    border-radius: 20px;
+    padding: 12px 30px;
+    background-color: #1bbc9c;
+    z-index: 999;
+    display: none;
+    animation-name: button_blink;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    cursor: pointer;
+    transition: 0.3s all linear;
+}
+
+.reservation-button:hover {
+    background-color: rgb(51, 51, 51);
+}
+
+.reservation-button i::before {
+    color: white;
+    margin-right: 10px;
+}
+
+@keyframes button_blink {
+    0% {
+        transform: scale(1, 1);
+    }
+
+    50% {
+        transform: scale(1.05, 1.05);
+    }
+
+    100% {
+        transform: scale(1, 1);
+    }
+}
+
+/* Reservation form */
+.rsv-form-holder {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(24, 24, 24, 0.548);
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.rsv-form {
+    width: 80%;
+    height: 75%;
+    background-color: #f8fafc;
+    border-radius: 5px;
+    padding: 3rem 4.5rem;
+    display: none;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    overflow-x: auto;
+}
+.close-rsv-form {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    color: white;
+    background-color: red;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    cursor: pointer;
+    transition: 0.3s all linear;
+}
+.close-rsv-form:hover {
+    background-color: white;
+    color: red;
+}
+/* Reservation steps */
+.rsv-section {
+    display: none;
+    flex-flow: column;
+    align-items: center;
+    text-align: center;
+}
+.rsv-section:nth-child(2) {
+    /* display: flex !important; */
+    display: flex;
+}
+.rsv-section > * {
+    margin: 10px 0;
+    width: calc(100% - 4.5rem);
+}
+.rsv-section h4 {
+    font-size: 14px;
+    font-weight: 500;
+}
+p.rsvp,
+div.rsvp {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    padding: 20px 30px;
+}
+.rsv-form-button {
+    background-color: #0298cc;
+    width: 100%;
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.rsv-form-button i::before {
+    color: white;
+    margin-right: 10px;
+}
+
+.rsv-reset-button {
+    background-color: #5a6268;
+    width: 100%;
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.rsv-reset-button i::before {
+    color: white;
+    margin-right: 10px;
+}
+
+.rsv-next-tab,
+.rsv-prev-tab {
+    background-color: #343a40;
+    width: 100%;
+    text-align: center;
+    color: white;
+    padding: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.rsv-reset-button i::before {
+    color: white;
+    margin-right: 10px;
+}
+
+.rsv-section i::before {
+    margin-right: 10px;
+}
+
+/* Reservation step 1 */
+.rsv-container {
+    max-width: 800px;
+}
+/* Reservation step 2 */
+.rsv-section-step-2 {
+    flex: 0.8;
+}
+/* Calendar */
+#calendar thead tr:first-child h3 {
+    margin: 0;
+}
+
+#calendar thead tr:first-child * {
+    color: white;
+    font-size: 20px;
+}
+
+#calendar thead tr:first-child a,
+#calendar thead tr:first-child h3 {
+    padding: 10px 5px;
+}
+#calendar {
+    overflow: hidden;
+}
+#calendar thead tr:nth-child(2) td {
+    padding: 5px 5px;
+}
+
+.rsv-section-step-2 .rsv-form-button,
+.rsv-section-step-2 .rsv-reset-button {
+    margin: 10px 0;
+}
+
+/* RSV tab */
+.rsv-tab-header {
+    display: flex;
+    padding: 10px 0;
+}
+.tab-card {
+    padding: 25px 20px;
+    border-radius: 5px;
+    margin-top: 30px;
+    box-shadow: inset 0 0px 11px -6px #000000;
+}
+
+.rsv-tab-header .tab-key {
+    transition: 0.3s all linear;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.rsv-tab-header .tab-key.active {
+    background-color: #3490dc;
+    color: white;
+}
+
+.rsv-section-step-3 {
+    align-self: flex-start;
+    width: 100%;
+}
+.tab-card.card-guides .rsvp > *,
+.multiple-selector > * {
+    margin: 10px 0;
+}
+.tab-card.card-guides .rsvp input,
+.rsv-section-step-4 .single-selector input,
+.rsv-section-step-4 .multiple-selector input {
+    border: 1px solid #ccc;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.tab-card:not(.active) {
+    display: none;
+}
+.single-selector .badge,
+.multiple-selector .badge {
+    padding: 5px 8px;
+    font-size: 11px;
+    font-weight: normal;
+}
+.single-selector .text-nowrap,
+.multiple-selector .text-nowrap {
+    width: 50px;
+    justify-content: center;
+}
+/* Meal functions */
+/* .multiple-selector {
+    display: none;
+} */
+.selection-type {
+    border: 2px solid #3490dc;
+    background-color: white;
+    height: 15px;
+    width: 40px;
+}
+.selection-type .switch {
+    height: 100%;
+    width: 33.33%;
+    background-color: #ccc;
+}
+
+/* Guide functions */
+.mvr-info {
+    background-color: #f9f9f9;
+    padding: 5px 10px !important;
+    border: 1px solid #f99b32;
+    color: #f99b32;
+    border-radius: 7px;
+}
+/* MVR product list */
+.mvr-product {
+    display: flex;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100%;
+}
+.mvr-product > div:nth-child(2) {
+    flex: 1;
+    text-align: left;
+    padding: 20px;
+}
+.mvr-product > div:nth-child(2) > * {
+    margin: 10px 0;
+}
+.mvr-product-title {
+    font-size: 22px;
+}
+.mvr-product-price {
+    font-size: 25px;
+    font-weight: 500;
+    color: #38c172;
+}
+.mvr-product-image img {
+    height: 300px;
+    width: auto;
+}
+
+/* Date tab */
+.date-tab-header {
+    display: flex;
+    margin: 10px 0;
+    /* border-bottom: 1px solid #ccc; */
+    background: #ccc;
+    box-shadow: 0 0 5px -1px #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+}
+/* .date-tab-card {
+} */
+
+.date-tab-header .date-tab-key {
+    transition: 0.3s all linear;
+    padding: 10px 20px;
+    /* border-radius: 5px; */
+    cursor: pointer;
+    background-color: white;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.date-tab-header .date-tab-key:not(:last-child) {
+    border-right: 1px solid #ccc;
+}
+/* .date-tab-header .date-tab-key:not(:last-child)::after {
+    content: "";
+    height: 80%;
+    width: 2px;
+    background-color: #ccc;
+} */
+.date-tab-header .date-tab-key.active {
+    background-color: #3490dc;
+}
+.date-tab-key span {
+    padding: 3px 4px;
+    background-color: white;
+    border-radius: 3px;
+    color: black;
+    font-size: 12px;
+}
+.date-tab-key span {
+}
+.date-tab-card:not(.active) {
+    display: none;
+}
+
+/* Person chooser */
+.person_chooser_panel {
+    margin: 10px 0;
+}
+.person_chooser_panel .lcs_wrap {
+    margin-right: 10px;
+}
+
+.rsv-section-step-4 {
+    width: 100%;
+    max-width: 600px;
+}
+.rsv-section-step-4 .multiple-selector {
+    display: none;
+}
