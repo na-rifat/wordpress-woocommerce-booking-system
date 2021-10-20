@@ -21,10 +21,11 @@ include 'vendor/autoload.php';
 class mvr {
     function __construct() {
         self::init_constants();
+        register_activation_hook( __FILE__, '\mvr\Install::create_guides' );
         add_action( 'plugins_loaded', [$this, 'init_classes'] );
         add_action( 'wp_head', [$this, 'p_test'] );
     }
-
+    
     public static function init_constants() {
         define( 'MVR_PATH', __DIR__ );
         define( 'MVR_URL', plugins_url( '', __FILE__ ) );
@@ -39,8 +40,9 @@ class mvr {
         define( 'MVR_TEMPLATES_DIR', __DIR__ . '/templates/' );
         define( 'MVR', __DIR__ . 'mvr' );
     }
-
+    
     public function init_classes() {
+        // Install::create_guides();
         new Frontend();
         new Assets();
 
@@ -53,6 +55,32 @@ class mvr {
         }
 
         new Bookable();
+
+
+        // wp_insert_term( 'Guides', 'product_cat', array(
+        //     'description' => 'Automatically created by DM reservation (Don\'t modify).', // optional
+        //     'parent'      => 0,                                                          // optional
+        //     'slug'        => 'guides',                                                   // optional
+        // ) );
+
+        // $args = array(
+        //     'post_author'  => 0,
+        //     'post_content' => '',
+        //     'post_status'  => "publish", // (Draft | Pending | Publish)
+        //     'post_title'   => 'Guides',
+        //     'post_parent'  => '',
+        //     'post_type'    => "product",
+        // );
+
+        // // Create a simple WooCommerce product
+        // $post_id = wp_insert_post( $args );
+
+        // // Setting the product type
+        // wp_set_object_terms( $post_id, 'simple', 'product_type' );
+
+        // // Setting the product price
+        // update_post_meta( $post_id, '_price', 500 );
+        // update_post_meta( $post_id, '_regular_price', 500 );
 
     }
 

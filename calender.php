@@ -8,13 +8,13 @@ function draw_calendar_controls( $controls, $month, $year ) {
     }
 
     if ( $controls == 'ajax_month' ) {
-        $prev_month_link = '<a href="#" data-month="' . ( $month != 1 ? str_pad( $month - 1, 2, 0, STR_PAD_LEFT ) : 12 ) . '" data-year="' . ( $month != 1 ? $year : $year - 1 ) . '" class="control calendar-prev-month"><i class="fa fa-chevron-left"></i></a>';
-        $next_month_link = '<a href="#" data-month="' . ( $month != 12 ? str_pad( $month + 1, 2, 0, STR_PAD_LEFT ) : '01' ) . '" data-year="' . ( $month != 12 ? $year : $year + 1 ) . '" class="control calendar-next-month"><i class="fa fa-chevron-right"></i></a>';
+        $prev_month_link = '<a href="#" data-month="' . ( $month != 1 ? str_pad( $month - 1, 2, 0, STR_PAD_LEFT ) : 12 ) . '" data-year="' . ( $month != 1 ? $year : $year - 1 ) . '" class="control calendar-prev-month btn-prev"><i class="fa fa-chevron-left"></i></a>';
+        $next_month_link = '<a href="#" data-month="' . ( $month != 12 ? str_pad( $month + 1, 2, 0, STR_PAD_LEFT ) : '01' ) . '" data-year="' . ( $month != 12 ? $year : $year + 1 ) . '" class="control calendar-next-month btn-next"><i class="fa fa-chevron-right"></i></a>';
 
         $reset_link = '<a title="Revenir au mois en cours..." href="#" data-month="' . date( 'm' ) . '" data-year="' . date( 'Y' ) . '" class="ml-3 calendar-reset"><i class="fa fa-history"></i></a>';
     } else if ( $controls == 'month' ) {
-        $prev_month_link = '<a href="?m=' . ( $month != 1 ? str_pad( $month - 1, 2, 0, STR_PAD_LEFT ) : 12 ) . '&y=' . ( $month != 1 ? $year : $year - 1 ) . '" class="control"><i class="fa fa-chevron-left"></i></a>';
-        $next_month_link = '<a href="?m=' . ( $month != 12 ? str_pad( $month + 1, 2, 0, STR_PAD_LEFT ) : 1 ) . '&y=' . ( $month != 12 ? $year : $year + 1 ) . '" class="control"><i class="fa fa-chevron-right"></i></a>';
+        $prev_month_link = '<a data-month=" ' . ( $month != 1 ? str_pad( $month - 1, 2, 0, STR_PAD_LEFT ) : 12 ) . ' " data-year="' . ( $month != 1 ? $year : $year - 1 ) . '" href="?m=' . ( $month != 1 ? str_pad( $month - 1, 2, 0, STR_PAD_LEFT ) : 12 ) . '&y=' . ( $month != 1 ? $year : $year - 1 ) . '" class="control btn-prev"><i class="fa fa-chevron-left"></i></a>';
+        $next_month_link = '<a data-month="' . ( $month != 12 ? str_pad( $month + 1, 2, 0, STR_PAD_LEFT ) : 1 ) . '" data-year="' . ( $month != 12 ? $year : $year + 1 ) . '" href="?m=' . ( $month != 12 ? str_pad( $month + 1, 2, 0, STR_PAD_LEFT ) : 1 ) . '&y=' . ( $month != 12 ? $year : $year + 1 ) . '" class="control btn-next"><i class="fa fa-chevron-right"></i></a>';
         $reset_link      = '<a title="Mois en cours..." href="?m=' . date( 'm' ) . '&y=' . date( 'Y' ) . '" class="ml-3"><i class="fa fa-history"></i></a>';
     }
 
@@ -208,7 +208,7 @@ function draw_calendar( $month, $year, $params = [], $user_id = null ) {
     /* end the table */
     $calendar .= '</table>';
 
-    $calendar .= '<div class="loader" style="display: none;"><p>Chargement...</p></div>';
+    $calendar .= '<div class="loader" style="display: none;"><p>Chargement...</p><script>navigateCalendar();</script></div>';
 
     return $calendar;
 }

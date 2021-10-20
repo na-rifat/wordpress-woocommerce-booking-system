@@ -17,7 +17,9 @@ class Helper {
         $result    = [];
 
         foreach ( $file_list as $file ) {
-            $result[] = explode( '.', $file )[0];
+            if ( ! empty( explode( '.', $file )[0] ) ) {
+                $result[] = explode( '.', $file )[0];
+            }
         }
 
         return $result;

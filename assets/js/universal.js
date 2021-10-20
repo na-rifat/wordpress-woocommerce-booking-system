@@ -1,4 +1,5 @@
 let eventRows = [];
+let guideText = ``;
 let guideCount = `<div role="group" class="input-group mt-1">
 <div class="input-group-prepend">
     <div class="input-group-text text-nowrap"><span class="badge badge-primary">{short_date}</span></div>
@@ -8,6 +9,8 @@ let guideCount = `<div role="group" class="input-group mt-1">
 
 (($) => {
     $(document).ready(function () {
+        
+
         let rsvBtn = $(`.reservation-button`);
         let rsvBtnTxt = rsvBtn.html();
 
@@ -52,6 +55,7 @@ let guideCount = `<div role="group" class="input-group mt-1">
                             startConfig();
                             rsvFormControls();
                             rsvTabTravel();
+
                         });
                     }
                 },
@@ -61,7 +65,7 @@ let guideCount = `<div role="group" class="input-group mt-1">
             });
         });
 
-        lc_switch("input[type=checkbox], input[type=radio]", {
+        lc_switch(".rsv-form input[type=checkbox]", {
             // (string) "checked" status label text
             on_txt: "ON",
 
@@ -74,12 +78,17 @@ let guideCount = `<div role="group" class="input-group mt-1">
             // (bool) whether to enable compact mode
             compact_mode: false,
         });
+
+
+
+
     });
 })(jQuery);
 
 // alert(["Rif", "at", "ro"].indexOf("at"));
 
 function rsvFormControls() {
+
     let $ = jQuery;
     let btn = $(`.rsv-form-button`);
     let rsvBtn1 = btn;
@@ -128,6 +137,10 @@ function rsvFormControls() {
             // $(this).remove();
         });
     });
+
+    $(`.create-invoice`).on(`click`, function (e) {
+        collectData();
+    })
 }
 
 function select_day_options(t) {
@@ -159,9 +172,10 @@ function select_day_options(t) {
 function startConfig() {
     let $ = jQuery;
     let btn = $(`.rsv-config-dates`);
-    let card = $(
-        `.tab-card.card-guides .multiple-selector, .rsv-section-step-4 .multiple-selector`
-    );
+    let guideCard = $(
+        `.tab-card.card-guides .multiple-selector`);
+    let card = $(`.rsv-section-step-4 .multiple-selector`);
+
 
     btn.on(`click`, function (e) {
         eventRows.forEach((item, i) => {
@@ -172,6 +186,12 @@ function startConfig() {
                     .replace(`{datei}`, item)
                     .replace(`{short_date}`, shortDate)
             );
+            guideCard.append(
+                guideText
+                    .replace(`{refi}`, i)
+                    .replace(`{datei}`, item)
+                    .replace(`{short_date}`, shortDate)
+            )
         });
         divideProductsDate();
     });
@@ -455,7 +475,7 @@ function personChooser() {
 function collectData() {
     let $ = jQuery;
     let result = [];
-    
+
     // Date wise items/objects
     let personCount = $(`.rsv-section-step-4 .multiple-selector`);
     let guideCount = $(`.card-guides .multiple-selector`);
@@ -467,7 +487,7 @@ function collectData() {
         result[i] = {};
         result[i].date = item;
         result[i].person = personCount.find(`[data-date="${item}"]`).val();
-        result[i].guide = guideCount.find(`[data-date="${item}"]`).val();
+        result[i].guide = guideCount.find(`select[data-date="${item}"]`).val();
         result[i].accommodation = [];
         result[i].vehicles = [];
         result[i].equipements = [];
@@ -476,9 +496,10 @@ function collectData() {
             .find(`.date-tab-card[data-date="${item}"] .mvr-product`)
             .each(function () {
                 let self = $(this);
-                result[i].accommodation.push({
+                let quantity = self.find(`select`).val()
+                if (quantity != null) result[i].accommodation.push({
                     id: self.data(`id`),
-                    quantity: self.find(`select`).val(),
+                    quantity: quantity,
                 });
             });
 
@@ -486,7 +507,8 @@ function collectData() {
             .find(`.date-tab-card[data-date="${item}"] .mvr-product`)
             .each(function () {
                 let self = $(this);
-                result[i].vehicles.push({
+                let quantity = self.find(`select`).val()
+                if (quantity != null) result[i].vehicles.push({
                     id: self.data(`id`),
                     quantity: self.find(`select`).val(),
                 });
@@ -496,7 +518,8 @@ function collectData() {
             .find(`.date-tab-card[data-date="${item}"] .mvr-product`)
             .each(function () {
                 let self = $(this);
-                result[i].equipements.push({
+                let quantity = self.find(`select`).val()
+                if (quantity != null) result[i].equipements.push({
                     id: self.data(`id`),
                     quantity: self.find(`select`).val(),
                 });
@@ -504,5 +527,77 @@ function collectData() {
 
     });
 
+    let data = {
+        action: `handle_data_collection`,
+        nonce: mvr_nonce.handle_data_collection,
+        data: result
+    }
+
+    loading($(`.card-invoice`));
+
+    $.ajax({
+        type: "POST",
+        url: mvr.ajax_url,
+        data,
+        dataType: "JSON",
+        success: function (response) {
+            console.log(response)
+            if (response.success) {
+                $(`.card-invoice`).html(response.data.invoice)
+            } else {
+                alert(response.data.msg)
+            }
+        }
+    });
+
     console.log(result);
+}
+
+
+function navigateCalendar() {
+    let $ = jQuery;
+    let parent = $(`.calendar-holder`);
+    let prevBtn = parent.find(`.btn-prev`)
+    let nextBtn = parent.find(`.btn-next`)
+    let btns = parent.find(`.btn-next, .btn-prev`)
+
+    btns.on(`click`, function (e) {
+        e.preventDefault();
+        loading(parent)
+        let self = $(this);
+        let month = self.data(`month`);
+        let year = self.data(`year`);
+        let data = {
+            month, year, controls: `ajax_month`, action: `get_ajax_calendar`, nonce: mvr_nonce.get_ajax_calendar
+        }
+
+        $.ajax({
+            type: "POST",
+            url: mvr.ajax_url,
+            data,
+            dataType: "JSON",
+            success: function (response) {
+                parent.html(response.data.calendar)
+                console.log(response)
+            },
+            error: function (res) {
+                alert(`ERROR`)
+            }
+        });
+    })
+
+    eventRows.forEach(date => {
+        $(`.calendar-day[data-ref="${date}"]`).addClass(`selected`)
+    });
+}
+
+
+function loading(el) {
+    let $ = jQuery;
+
+    $(el).html(
+        `<div class="loading-holder">
+        <div class="loader"></div>
+        </div>`
+    )
 }

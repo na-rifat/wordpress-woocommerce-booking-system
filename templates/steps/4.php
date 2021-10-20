@@ -6,7 +6,7 @@
             <div class="tab-key">Guides</div>
             <div class="tab-key">Equipements</div>
             <div class="tab-key">Discount</div>
-            <div class="tab-key">Invoice</div>
+            <div class="tab-key create-invoice">Invoice</div>
         </div>
         <div class="rsv-tab-body">
             <div class="tab-card card-accommodation active">
@@ -30,7 +30,7 @@
             </div>
             <div class="tab-card card-discount">
                 <?php \mvr\Templates::print( 'tabs/discount' )?>
-                <div class="rsv-next-tab">Next step</div>
+                <div class="rsv-next-tab create-invoice">Next step</div>
             </div>
             <div class="tab-card card-invoice"></div>
         </div>

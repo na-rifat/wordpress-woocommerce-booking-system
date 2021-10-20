@@ -11,6 +11,7 @@ class Bookable {
         add_filter( 'woocommerce_product_data_tabs', array( $this, 'add_product_tab' ), 50 );
         add_action( 'woocommerce_product_data_panels', array( $this, 'add_product_tab_content' ) );
         add_action( 'woocommerce_process_product_meta', array( $this, 'save_meta_values' ) );
+        add_action( 'woocommerce_cart_calculate_fees', [$this, 'add_user_discounts'] );
     }
 
     /**
@@ -47,6 +48,17 @@ class Bookable {
 
         update_post_meta( $post_id, 'dm_available', $dm_available );
         update_post_meta( $post_id, 'dm_capacity', $dm_capacity );
+    }
+
+    public function add_user_discounts( $cart ) {
+
+        if ( count( $cart->get_cart() ) < 3 ) {
+            return;
+        }
+
+        $discount = $cart->get_subtotal() * 0.15;
+
+        $cart->add_fee( 'Discount 15%', -$discount );
     }
 
 }
